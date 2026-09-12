@@ -18,15 +18,30 @@ function setState(patch) {
   render();
 }
 
-// 実機のビューポートに合わせて1194×834のフレームをアスペクト比を保ったまま拡大縮小する
+// 実機のビューポートに合わせて1194×834のフレームをアスペクト比を保ったまま拡大縮小する。
+// iOS Safariは window.innerWidth/innerHeight が読み込み直後は確定しておらず
+// （アドレスバーの表示状態やフォント読み込みの前後で変わる）、初回表示だけサイズが
+// ずれてダブルタップ操作で直る、という不具合が起きるため、window.visualViewport が
+// 使える場合はそちらを優先し、resize イベントも併せて監視する。
 const pageEl = document.querySelector(".page");
 function fitFrame() {
-  const scale = Math.min(window.innerWidth / 1194, window.innerHeight / 834);
+  const vv = window.visualViewport;
+  const width = vv ? vv.width : window.innerWidth;
+  const height = vv ? vv.height : window.innerHeight;
+  const scale = Math.min(width / 1194, height / 834);
   pageEl.style.setProperty("--fit-scale", scale);
 }
 window.addEventListener("resize", fitFrame);
 window.addEventListener("orientationchange", fitFrame);
+window.addEventListener("load", fitFrame);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", fitFrame);
+}
 fitFrame();
+// フォント読み込みなどでレイアウト確定が遅れるケースの保険として、
+// 直後にもう一度計算し直す。
+requestAnimationFrame(fitFrame);
+setTimeout(fitFrame, 300);
 
 const root = document.getElementById("app");
 

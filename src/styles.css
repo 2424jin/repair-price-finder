@@ -73,6 +73,7 @@ html, body {
   height: 100%;
   margin: 0;
   overscroll-behavior: none; /* iPad Safariのバウンス／引っ張り更新を抑制 */
+  touch-action: manipulation; /* ダブルタップ・ピンチでの拡大を抑制（自前のスケール処理と競合させない） */
 }
 
 body {
