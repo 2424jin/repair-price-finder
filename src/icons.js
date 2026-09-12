@@ -33,12 +33,7 @@ App.iconCheck = (stroke = "#0e6ba8") =>
 
 // カテゴリーアイコン（viewBox 0 0 48 48）
 App.CATEGORY_ICONS = {
-  "掃除機": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<path d="M24 8h8"></path>
-     <path d="M30 8v6"></path>
-     <rect x="26" y="14" width="9" height="13" rx="3"></rect>
-     <path d="M30 27v7"></path>
-     <rect x="12" y="34" width="26" height="7" rx="2.5"></rect>`, { stroke }),
+  "掃除機": () => `<img src="src/assets/icon-vacuum.png" alt="" class="cat-icon-img">`,
   "オーブンレンジ": (stroke = "#0e6ba8") => svg("0 0 48 48",
     `<rect x="6" y="10" width="36" height="28" rx="3"></rect>
      <rect x="10" y="14" width="19" height="20" rx="2"></rect>
@@ -57,10 +52,7 @@ App.CATEGORY_ICONS = {
      <circle cx="17" cy="9.5" r="1"></circle>
      <circle cx="24" cy="26" r="10"></circle>
      <path d="M19 26a5 5 0 005 5"></path>`, { stroke }),
-  "ドライヤー": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<rect x="8" y="13" width="26" height="11" rx="5.5"></rect>
-     <path d="M34 15h5v7h-5"></path>
-     <path d="M17 24l-2 13h8l-2-13"></path>`, { stroke }),
+  "ドライヤー": () => `<img src="src/assets/icon-dryer.png" alt="" class="cat-icon-img">`,
   "炊飯器": (stroke = "#0e6ba8") => svg("0 0 48 48",
     `<path d="M8 20h32l-2.5 18a3 3 0 01-3 2.5h-21a3 3 0 01-3-2.5L8 20z"></path>
      <rect x="6" y="14" width="36" height="7" rx="2.5"></rect>

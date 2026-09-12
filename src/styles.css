@@ -274,6 +274,7 @@ p.subtitle.subtitle--sm { font-size: 14.5px; }
   display: flex; align-items: center; justify-content: center; flex: none;
 }
 .cat-icon-wrap svg { width: 40px; height: 40px; }
+.cat-icon-wrap .cat-icon-img { width: 46px; height: 46px; object-fit: contain; }
 .cat-info { display: flex; flex-direction: column; gap: 4px; }
 .cat-name { font-size: 20px; font-weight: 700; color: var(--ink); }
 .cat-note { font-size: 12.5px; color: var(--faint-text); }
