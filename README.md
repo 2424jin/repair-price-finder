@@ -1,4 +1,4 @@
-# 修理費用かんたん見積もり
+# かんたん修理診断
 
 `家電修理金額確認サイト設計/design_handoff_repair_price_finder/README.md` のハンドオフをもとに実装。
 ビルド不要のプレーン HTML / CSS / JavaScript。

@@ -4,7 +4,7 @@ App.renderHeader = function renderHeader() {
     <div class="header-left">
       <div class="header-icon"><img src="src/assets/icon-header.png" alt="" class="header-icon-img"></div>
       <div class="header-text">
-        <span class="header-title">修理費用かんたん見積もり</span>
+        <span class="header-title">かんたん修理診断</span>
       </div>
     </div>
     <div>
