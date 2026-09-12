@@ -30,10 +30,12 @@ function fitFrame() {
   const height = vv ? vv.height : window.innerHeight;
   const scale = Math.min(width / 1194, height / 834);
 
-  // 見た目のバランスを整えるため少しだけ下にずらすが、余白（レターボックス）を
-  // 超えて下端が見切れないよう、実際に空いている余白の範囲内に収める。
+  // 見た目のバランスを整えるため約3mm分だけ下にずらす（iPad mini基準、163pt/inchで換算）。
+  // ただし余白（レターボックス）を超えて下端が見切れないよう、実際に空いている
+  // 余白の範囲内に収める。
+  const TARGET_SHIFT_PX = 19; // 約3mm（iPad mini: 163pt/inch換算）
   const marginY = height - 834 * scale;
-  const shiftY = Math.max(0, Math.min(20, marginY / 2));
+  const shiftY = Math.max(0, Math.min(TARGET_SHIFT_PX, marginY / 2));
 
   pageEl.style.setProperty("--fit-scale", scale);
   pageEl.style.setProperty("--fit-shift-y", `${shiftY}px`);
