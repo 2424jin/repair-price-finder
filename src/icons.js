@@ -34,28 +34,9 @@ App.iconCheck = (stroke = "#0e6ba8") =>
 // カテゴリーアイコン（viewBox 0 0 48 48）
 App.CATEGORY_ICONS = {
   "掃除機": () => `<img src="src/assets/icon-vacuum.png" alt="" class="cat-icon-img">`,
-  "オーブンレンジ": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<rect x="6" y="10" width="36" height="28" rx="3"></rect>
-     <rect x="10" y="14" width="19" height="20" rx="2"></rect>
-     <circle cx="35" cy="18" r="2"></circle>
-     <path d="M32 26h6"></path>
-     <path d="M32 30h6"></path>`, { stroke }),
-  "冷蔵庫": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<rect x="12" y="5" width="24" height="38" rx="3"></rect>
-     <path d="M12 20h24"></path>
-     <path d="M18 10v6"></path>
-     <path d="M18 25v6"></path>`, { stroke }),
-  "洗濯機": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<rect x="7" y="6" width="34" height="36" rx="3"></rect>
-     <path d="M7 13h34"></path>
-     <circle cx="13" cy="9.5" r="1"></circle>
-     <circle cx="17" cy="9.5" r="1"></circle>
-     <circle cx="24" cy="26" r="10"></circle>
-     <path d="M19 26a5 5 0 005 5"></path>`, { stroke }),
+  "オーブンレンジ": () => `<img src="src/assets/icon-microwave.png" alt="" class="cat-icon-img">`,
+  "冷蔵庫": () => `<img src="src/assets/icon-fridge.png" alt="" class="cat-icon-img">`,
+  "洗濯機": () => `<img src="src/assets/icon-washer.png" alt="" class="cat-icon-img">`,
   "ドライヤー": () => `<img src="src/assets/icon-dryer.png" alt="" class="cat-icon-img">`,
-  "炊飯器": (stroke = "#0e6ba8") => svg("0 0 48 48",
-    `<path d="M8 20h32l-2.5 18a3 3 0 01-3 2.5h-21a3 3 0 01-3-2.5L8 20z"></path>
-     <rect x="6" y="14" width="36" height="7" rx="2.5"></rect>
-     <path d="M24 6v5"></path>
-     <circle cx="24" cy="30" r="1.4" fill="${stroke}" stroke="none"></circle>`, { stroke })
+  "炊飯器": () => `<img src="src/assets/icon-ricecooker.png" alt="" class="cat-icon-img">`
 };
