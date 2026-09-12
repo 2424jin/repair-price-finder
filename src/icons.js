@@ -4,9 +4,6 @@
 const svg = (viewBox, inner, { stroke = "currentColor", width = "1.7", extra = "" } = {}) =>
   `<svg viewBox="${viewBox}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" ${extra}>${inner}</svg>`;
 
-App.iconWrench = (stroke = "#ffffff") =>
-  svg("0 0 24 24", `<path d="M14.5 4.5a4 4 0 015.3 5.3l-9 9-4.6 1.3 1.3-4.6 9-9z"></path><path d="M4 20h6"></path>`, { stroke, width: "1.9" });
-
 App.iconChevronLeft = (stroke = "#6b7280") =>
   svg("0 0 24 24", `<path d="M14.5 5.5L8 12l6.5 6.5"></path>`, { stroke, width: "2.2" });
 

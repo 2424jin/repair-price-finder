@@ -147,10 +147,10 @@ svg { flex: none; }
 }
 .header-left { display: flex; align-items: center; gap: 12px; }
 .header-icon {
-  width: 32px; height: 32px; border-radius: 9px; background: var(--blue);
+  width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center; flex: none;
 }
-.header-icon svg { width: 18px; height: 18px; }
+.header-icon-img { width: 44px; height: 44px; object-fit: contain; }
 .header-text { display: flex; flex-direction: column; gap: 1px; }
 .header-title { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: .01em; }
 .header-sub { font-size: 11px; color: var(--faint-text); }
