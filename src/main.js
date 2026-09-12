@@ -52,6 +52,20 @@ fitFrame();
 requestAnimationFrame(fitFrame);
 setTimeout(fitFrame, 300);
 
+// iOS Safariはダブルタップでのズームを CSS の touch-action だけでは
+// 抑制しきれない場合があるため、JS側でも明示的に打ち消す。
+// ズームされると、フレームは自前のスケール処理の上にさらに
+// ブラウザ側の拡大がかかる形になり、overflow:hidden の外側が
+// 見えてしまう（＝下端が見切れる）ため。
+let lastTouchEnd = 0;
+document.addEventListener("touchend", (e) => {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 350) {
+    e.preventDefault();
+  }
+  lastTouchEnd = now;
+}, { passive: false });
+
 const root = document.getElementById("app");
 
 function renderScreen(v) {
