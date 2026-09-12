@@ -113,7 +113,7 @@ svg { flex: none; }
   width: 1194px;
   height: 834px;
   flex: none;
-  transform: scale(var(--fit-scale));
+  transform: translateY(20px) scale(var(--fit-scale));
 }
 
 .frame {
