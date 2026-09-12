@@ -108,12 +108,13 @@ svg { flex: none; }
   justify-content: center;
   overflow: hidden;
   --fit-scale: 1;
+  --fit-shift-y: 0px;
 }
 .page > .frame-wrap {
   width: 1194px;
   height: 834px;
   flex: none;
-  transform: translateY(20px) scale(var(--fit-scale));
+  transform: translateY(var(--fit-shift-y)) scale(var(--fit-scale));
 }
 
 .frame {
