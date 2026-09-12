@@ -156,8 +156,8 @@ svg { flex: none; }
 .header-sub { font-size: 11px; color: var(--faint-text); }
 
 .btn-reset {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
-  color: var(--body-text); font-size: 13px; font-weight: 500; padding: 9px 16px; white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  color: var(--body-text); font-size: 14px; font-weight: 500; padding: 11px 19px; white-space: nowrap;
 }
 .btn-reset:hover { background: var(--surface-tint); border-color: var(--line2); }
 .btn-reset:active { background: #ececed; }
