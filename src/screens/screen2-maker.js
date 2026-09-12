@@ -15,7 +15,8 @@ App.renderMakerScreen = function renderMakerScreen(v) {
     </div>` : "";
 
   const cards = v.makers.map((m) => {
-    let label = "";
+    // ラベルの有無でカードの高さが変わらないよう、無い場合も同じ場所に不可視のプレースホルダーを置く
+    let label = `<span class="maker-label maker-label--placeholder">&nbsp;</span>`;
     if (m.katashiki) label = `<span class="maker-label maker-label--katashiki">型番から検索</span>`;
     else if (m.low) label = `<span class="maker-label maker-label--low">参考値のみ</span>`;
     else if (m.nodata) label = `<span class="maker-label maker-label--nodata">データなし</span>`;

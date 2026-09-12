@@ -336,6 +336,7 @@ p.subtitle.subtitle--sm { font-size: 14.5px; }
 .maker-label--katashiki { color: var(--blue); background: var(--blue-tint); }
 .maker-label--low { color: var(--red-text); background: var(--red-bg2); }
 .maker-label--nodata { color: var(--sub-text); background: #f0f0f1; }
+.maker-label--placeholder { background: transparent; color: transparent; visibility: hidden; }
 
 /* ---------- Screen 3-A: symptom ---------- */
 .screen-symptom { padding: 24px 40px 0; }
