@@ -207,12 +207,13 @@ p.subtitle.subtitle--sm { font-size: 14.5px; }
 .back-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
 
 .btn-back {
-  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
-  color: var(--body-text); font-size: 13px; font-weight: 500; padding: 8px 14px;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  color: var(--body-text); font-size: 14.5px; font-weight: 500; padding: 12px 20px;
+  min-height: 44px; /* iPadでの最小タップ領域を確保 */
 }
 .btn-back:hover { background: var(--surface-tint); border-color: var(--line2); }
-.btn-back svg { width: 14px; height: 14px; }
+.btn-back svg { width: 16px; height: 16px; }
 
 .btn-back--sand { background: var(--surface); border-color: var(--sand-border); color: var(--sand-text2); }
 .btn-back--sand:hover { background: var(--sand-tint4); border-color: var(--sand-border2); }
