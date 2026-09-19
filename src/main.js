@@ -23,11 +23,36 @@ function setState(patch) {
 // （アドレスバーの表示状態やフォント読み込みの前後で変わる）、初回表示だけサイズが
 // ずれてダブルタップ操作で直る、という不具合が起きるため、window.visualViewport が
 // 使える場合はそちらを優先し、resize イベントも併せて監視する。
+//
+// ソフトウェアキーボードが出ると、iOS Safariは visualViewport.height だけが縮み、
+// window.innerHeight は変わらない。visualViewport の高さでそのまま拡大縮小すると、
+// 画面全体が小さく縮んでしまう。そこで、文字入力中に見えている高さが大きく減ったときは
+// 「キーボードが出ている」と見なし、拡大縮小は入力前の大きさ（innerHeight）のまま、
+// 入力欄がキーボードの上に見えるようフレームを上へずらす。
+// 読み込み直後に innerHeight がずれる問題を避けるため、文字入力欄にフォーカスが
+// あるときだけ、キーボード表示と判定する。
+const KEYBOARD_MIN_COVER_PX = 100; // これ以上、見える高さが減ったらキーボードと見なす
+const KEYBOARD_TOP_GAP_PX = 12;    // キーボード表示中、入力欄を見える範囲の上端から離す量
 const pageEl = document.querySelector(".page");
+let keyboardOpen = false;
+let keyboardTimer = null;
+
+function focusedTextField() {
+  const el = document.activeElement;
+  return el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA") ? el : null;
+}
+
 function fitFrame() {
   const vv = window.visualViewport;
   const width = vv ? vv.width : window.innerWidth;
-  const height = vv ? vv.height : window.innerHeight;
+  const field = focusedTextField();
+
+  // キーボード表示の判定。出たままの間は保ち、見える高さが戻ったら解除する
+  const covered = vv ? window.innerHeight - vv.height : 0;
+  if (!vv || covered <= KEYBOARD_MIN_COVER_PX || vv.scale > 1.01) keyboardOpen = false;
+  else if (field) keyboardOpen = true;
+
+  const height = keyboardOpen ? window.innerHeight : (vv ? vv.height : window.innerHeight);
   const scale = Math.min(width / 1194, height / 834);
 
   // 見た目のバランスを整えるため約1.5mm分だけ下にずらす（iPad mini基準、163pt/inchで換算）。
@@ -39,13 +64,37 @@ function fitFrame() {
 
   pageEl.style.setProperty("--fit-scale", scale);
   pageEl.style.setProperty("--fit-shift-y", `${shiftY}px`);
+
+  if (keyboardOpen && field) {
+    // 入力欄を、見えている範囲（キーボードの上）の上端近くへ。ただし、
+    // フレームの下端が、見えている範囲の下端より上に上がらないようにする
+    const visTop = vv.offsetTop;
+    const visBottom = vv.offsetTop + vv.height;
+    const fieldTop = field.getBoundingClientRect().top;
+    const frameBottom = pageEl.firstElementChild.getBoundingClientRect().bottom;
+    const lift = Math.min(0, Math.max(visTop + KEYBOARD_TOP_GAP_PX - fieldTop, visBottom - frameBottom));
+    pageEl.style.setProperty("--fit-shift-y", `${shiftY + lift}px`);
+  }
 }
 window.addEventListener("resize", fitFrame);
 window.addEventListener("orientationchange", fitFrame);
 window.addEventListener("load", fitFrame);
 if (window.visualViewport) {
   window.visualViewport.addEventListener("resize", fitFrame);
+  window.visualViewport.addEventListener("scroll", fitFrame);
 }
+// 入力欄が再描画で作り直されても、キーボード表示の状態を保つ。
+// 入力欄を離れて、しばらく戻らなければ、キーボード表示の判定を解除する
+document.addEventListener("focusin", () => {
+  clearTimeout(keyboardTimer);
+  fitFrame();
+});
+document.addEventListener("focusout", () => {
+  clearTimeout(keyboardTimer);
+  keyboardTimer = setTimeout(() => {
+    if (!focusedTextField()) { keyboardOpen = false; fitFrame(); }
+  }, 800);
+});
 fitFrame();
 // フォント読み込みなどでレイアウト確定が遅れるケースの保険として、
 // 直後にもう一度計算し直す。
@@ -99,6 +148,7 @@ function render() {
       if (selStart !== null && typeof next.setSelectionRange === "function") {
         next.setSelectionRange(selStart, selEnd);
       }
+      fitFrame(); // 入力欄が作り直されても、キーボード表示中の位置を保つ
     }
   }
 }
