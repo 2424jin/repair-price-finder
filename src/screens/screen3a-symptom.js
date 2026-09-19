@@ -40,8 +40,8 @@ App.renderSymptomScreen = function renderSymptomScreen(v) {
       ${v.symptoms.map((sym) => `
         <button type="button" class="card-btn sym-card" data-action="pick-symptom" data-sym="${escapeHtml(sym.key)}">
           <span class="sym-card-main">
-            <span class="sym-name">${escapeHtml(sym.s)}</span>
-            ${sym.sub ? `<span class="sym-sub">対象：${escapeHtml(sym.sub)}</span>` : ""}
+            <span class="sym-name">${escapeHtml(sym.main)}</span>
+            ${sym.sub ? `<span class="sym-sub">${escapeHtml(sym.sub)}</span>` : ""}
             ${sym.warn ? `<span class="sym-warn-label">保証対象外の場合あり</span>` : ""}
           </span>
           ${sym.sel ? `<span class="sym-badge-selected">選択中</span>` : ""}
@@ -56,8 +56,8 @@ App.renderSymptomScreen = function renderSymptomScreen(v) {
       ${chips(v)}
     </div>
     <div class="head-block">
-      <h1 class="title title--md">どのような症状ですか？</h1>
-      <p class="subtitle subtitle--sm">いちばん困っている症状に近いものを選んでください</p>
+      <h1 class="title title--md">${v.productMode ? "どの製品ですか？" : "どのような症状ですか？"}</h1>
+      <p class="subtitle subtitle--sm">${v.productMode ? "お使いの製品を選んでください" : "いちばん困っている症状に近いものを選んでください"}</p>
     </div>
     ${body}
     ${App.renderNoticeCompact(false)}

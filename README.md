@@ -19,7 +19,7 @@
 - `src/utils.js` — 共通ユーティリティ（金額フォーマット、HTMLエスケープ、色のティント生成）
 - `src/styles.css` — デザイントークンと全画面のスタイル
 - `src/screens/` — 画面ごとの描画関数（ヘッダー／ステップバー／注記／画面1〜4）
-- `src/data/repair-data.js` — 修理料金の実データ（355件、`files/repair_costs.json` から生成）
+- `src/data/repair-data.js` — 修理料金の実データ（357件、`files/repair_costs.json` から生成）
 - `src/data/tescom-models.js` — テスコム ヘアドライヤーの型番別定額データ（229機種、テスコム公式サイトから生成）
 - `scripts/` — データ更新用スクリプト（下記）
 

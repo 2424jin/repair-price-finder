@@ -28,6 +28,9 @@ App.deriveState = function deriveState(state, config) {
   // 同じ画面のどのボタンにも、対象製品を添える（付くものと付かないものが混ざらないように）。
   const rowKey = (r) => `${r.s}||${r.g || ""}`;
   const productKinds = new Set(rowsForMaker.map((r) => r.g || "")).size;
+  // 症状が1種類だけで、対象製品が複数あるとき（例：MTG。製品ごとの定額で、症状では金額が変わらない）は、
+  // 症状名ではなく製品名を、ボタンのメインの文字にする。
+  const productMode = new Set(rowsForMaker.map((r) => r.s)).size === 1 && productKinds > 1;
 
   const seen = {};
   const symptomsAll = [];
@@ -36,8 +39,9 @@ App.deriveState = function deriveState(state, config) {
     if (seen[key]) continue;
     seen[key] = true;
     symptomsAll.push({
-      key, s: r.s,
-      sub: productKinds > 1 ? (r.g || "") : "",
+      key,
+      main: productMode ? (r.g || r.s) : r.s,
+      sub: productMode ? r.s : (productKinds > 1 && r.g ? `対象：${r.g}` : ""),
       warn: WARN_RE.test(r.s), sel: state.symptom === key
     });
   }
@@ -93,7 +97,7 @@ App.deriveState = function deriveState(state, config) {
   const ctaDomain = ctaUrl ? ctaUrl.replace(/^https?:\/\//, "").split("/")[0] : "";
 
   const q = (state.q || "").trim();
-  const symptoms = q ? symptomsAll.filter((x) => x.s.includes(q) || x.sub.includes(q)) : symptomsAll;
+  const symptoms = q ? symptomsAll.filter((x) => x.main.includes(q) || x.sub.includes(q)) : symptomsAll;
 
   return {
     cat, maker: state.maker, wtype: state.wtype, isWasher,
@@ -116,8 +120,9 @@ App.deriveState = function deriveState(state, config) {
     mNoHits: mqRaw.length > 0 && modelHits.length === 0,
 
     modelRow,
-    stepLabel3: modelRow ? "型番" : "症状",
-    backLabel: modelRow ? "型番を選び直す" : "症状を選び直す",
+    productMode,
+    stepLabel3: modelRow ? "型番" : (productMode ? "製品" : "症状"),
+    backLabel: modelRow ? "型番を選び直す" : (productMode ? "製品を選び直す" : "症状を選び直す"),
 
     // result screen
     priceText: r.priceText, priceKind: r.priceKind,
