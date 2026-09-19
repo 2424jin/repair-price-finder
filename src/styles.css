@@ -360,6 +360,7 @@ p.subtitle.subtitle--sm { font-size: 14.5px; }
 .sym-card:hover { border-color: var(--blue); box-shadow: 0 4px 12px rgba(14, 107, 168, .12); }
 .sym-card-main { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .sym-name { font-size: 15.5px; font-weight: 500; color: var(--ink); line-height: 1.45; text-wrap: pretty; }
+.sym-sub { font-size: 12.5px; font-weight: 500; color: var(--blue); line-height: 1.4; text-wrap: pretty; }
 .sym-warn-label {
   font-size: 10.5px; font-weight: 700; color: var(--red-text); background: var(--red-bg2);
   border-radius: 4px; padding: 3px 7px;

@@ -22,12 +22,24 @@ App.deriveState = function deriveState(state, config) {
   const rowsForMaker = state.data.filter((r) => r.c === cat && r.m === state.maker &&
     (!isWasher || !state.wtype || !r.t || r.t === state.wtype || r.t.includes("不明")));
 
+  // 同じ症状名でも、対象製品（g）が違えば金額が違うことがある（例：シャープ掃除機のスティック／キャニスター）。
+  // 症状名だけで1つにまとめると、2件目以降が選べず、先頭の行の金額が出てしまうため、
+  // 「症状名＋対象製品」を1組として扱う。そのメーカーに対象製品が2種類以上あるときは、
+  // 同じ画面のどのボタンにも、対象製品を添える（付くものと付かないものが混ざらないように）。
+  const rowKey = (r) => `${r.s}||${r.g || ""}`;
+  const productKinds = new Set(rowsForMaker.map((r) => r.g || "")).size;
+
   const seen = {};
   const symptomsAll = [];
   for (const r of rowsForMaker) {
-    if (seen[r.s]) continue;
-    seen[r.s] = true;
-    symptomsAll.push({ key: r.s, s: r.s, warn: WARN_RE.test(r.s), sel: state.symptom === r.s });
+    const key = rowKey(r);
+    if (seen[key]) continue;
+    seen[key] = true;
+    symptomsAll.push({
+      key, s: r.s,
+      sub: productKinds > 1 ? (r.g || "") : "",
+      warn: WARN_RE.test(r.s), sel: state.symptom === key
+    });
   }
 
   const typeIsReason = isWasher && !!state.wtype && rowsForMaker.length === 0 &&
@@ -38,7 +50,7 @@ App.deriveState = function deriveState(state, config) {
   const modelHits = mqRaw ? MODELS.filter((x) => norm(x.id).includes(norm(mqRaw))) : [];
 
   const modelRow = state.model ? MODELS.find((x) => x.id === state.model) : null;
-  const dataRow = state.symptom ? rowsForMaker.find((r) => r.s === state.symptom) : null;
+  const dataRow = state.symptom ? rowsForMaker.find((r) => rowKey(r) === state.symptom) : null;
   const flatRow = state.data.find((r) => r.c === cat && r.m === state.maker) || {};
 
   let result = null;
@@ -81,7 +93,7 @@ App.deriveState = function deriveState(state, config) {
   const ctaDomain = ctaUrl ? ctaUrl.replace(/^https?:\/\//, "").split("/")[0] : "";
 
   const q = (state.q || "").trim();
-  const symptoms = q ? symptomsAll.filter((x) => x.s.includes(q)) : symptomsAll;
+  const symptoms = q ? symptomsAll.filter((x) => x.s.includes(q) || x.sub.includes(q)) : symptomsAll;
 
   return {
     cat, maker: state.maker, wtype: state.wtype, isWasher,

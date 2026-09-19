@@ -38,9 +38,10 @@ App.renderSymptomScreen = function renderSymptomScreen(v) {
     </div>
     <div class="sym-grid">
       ${v.symptoms.map((sym) => `
-        <button type="button" class="card-btn sym-card" data-action="pick-symptom" data-sym="${escapeHtml(sym.s)}">
+        <button type="button" class="card-btn sym-card" data-action="pick-symptom" data-sym="${escapeHtml(sym.key)}">
           <span class="sym-card-main">
             <span class="sym-name">${escapeHtml(sym.s)}</span>
+            ${sym.sub ? `<span class="sym-sub">対象：${escapeHtml(sym.sub)}</span>` : ""}
             ${sym.warn ? `<span class="sym-warn-label">保証対象外の場合あり</span>` : ""}
           </span>
           ${sym.sel ? `<span class="sym-badge-selected">選択中</span>` : ""}
